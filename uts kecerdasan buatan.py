@@ -110,3 +110,97 @@ while play_again:
     if play_again_input.lower() != 'ya':
         play_again = False
         break
+
+ - | - | -
+---------
+- | - | -
+---------
+- | - | -
+---------
+Masukkan baris dan kolom (0-2) pisahkan dengan spasi:  1 1
+Giliran komputer...
+X | - | -
+---------
+- | O | -
+---------
+- | - | -
+---------
+Masukkan baris dan kolom (0-2) pisahkan dengan spasi:  0 1
+Giliran komputer...
+X | O | -
+---------
+- | O | -
+---------
+- | X | -
+---------
+Masukkan baris dan kolom (0-2) pisahkan dengan spasi:  0 2
+Giliran komputer...
+X | O | O
+---------
+- | O | -
+---------
+X | X | -
+---------
+Masukkan baris dan kolom (0-2) pisahkan dengan spasi:  2 2
+Giliran komputer...
+X | O | O
+---------
+X | O | -
+---------
+X | X | O
+---------
+Komputer Menang!
+Ingin bermain lagi? (ya/tidak):  t
+Solusi ditemukan:
+Node 0 colored with Red
+Node 1 colored with Red
+Node 2 colored with Red
+Node 3 colored with Red
+Solusi ditemukan:
+Node 0 colored with Red
+Node 1 colored with Red
+Node 2 colored with Red
+Node 3 colored with Red
+
+def is_valid_color(graph, node, color, c):
+    for neighbor in graph[node]:
+        if neighbor in color and color[neighbor] == c:
+            return False
+    return True
+
+def graph_coloring(graph, colors, solution, node):
+    if node == len(graph):
+        return True
+
+    for c in colors:
+        if is_valid_color(graph, node, solution, c):
+            solution[node] = c
+            if graph_coloring(graph, colors, solution, node + 1):
+                return True
+            solution[node] = None
+
+    return False
+
+def print_solution(solution):
+    for i, color in enumerate(solution):
+        print(f"Node {i} colored with {color}")
+
+# Definisikan graf dan warna yang tersedia
+graph = {
+    0: [1, 2, 3],
+    1: [0, 2],
+    2: [0, 1, 3],
+    3: [0, 2]
+}
+
+available_colors = ['Red', 'Green', 'Blue']
+
+# Inisialisasi solusi dengan None
+solution = [None] * len(graph)
+
+# Selesaikan masalah pewarnaan graf
+if graph_coloring(graph, available_colors, solution, 0):
+    print("Solusi ditemukan:")
+    print_solution(solution)
+else:
+    print("Tidak ada solusi yang ditemukan.")
